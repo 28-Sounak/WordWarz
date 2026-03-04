@@ -1,0 +1,130 @@
+/* =========================
+   GLOBAL STYLES
+========================= */
+
+body {
+    background-color: #f0f0f0;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+h1 {
+    color: #333;
+    text-align: center;
+}
+
+.container {
+    text-align: center;
+}
+
+
+/* =========================
+   INDEX BUTTONS
+========================= */
+
+#single,
+#multi,
+#create,
+#join {
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    margin: 8px;
+    font-size: 14px;
+    transition: 0.2s ease;
+}
+
+
+/* Single Player */
+#single {
+    background-color: green;
+}
+
+#single:hover {
+    background-color: darkgreen;
+    cursor: pointer;
+}
+
+
+/* Multiplayer */
+#multi {
+    background-color: blue;
+}
+
+#multi:hover {
+    background-color: darkblue;
+    cursor: pointer;
+}
+
+
+/* Join */
+#join {
+    background-color: orange;
+}
+
+#join:hover {
+    background-color: darkorange;
+    cursor: pointer;
+}
+
+
+/* Create */
+#create {
+    background-color: purple;
+}
+
+#create:hover {
+    background-color: #5e2a84;   /* fixed invalid darkpurple */
+    cursor: pointer;
+}
+
+
+/* =========================
+   GAME PAGE INFO BOXES
+========================= */
+
+#roomDisplay {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+
+    background: black;
+    color: white;
+
+    padding: 10px 15px;
+    border-radius: 12px;
+    font-size: 14px;
+
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+#roomDisplay button {
+    padding: 4px 8px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+
+/* Player Count Display */
+
+#playerCountDisplay {
+    position: absolute;
+    top: 70px;
+    right: 20px;
+
+    background: #222;
+    color: white;
+
+    padding: 8px 12px;
+    border-radius: 10px;
+    font-size: 14px;
+}
