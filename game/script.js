@@ -1,65 +1,87 @@
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", function () {
 
-    // =====================================================
+    // =========================================
     // INDEX PAGE (index.html)
-    // =====================================================
+    // =========================================
 
     const singleBtn = document.getElementById("single");
     const multiBtn = document.getElementById("multi");
 
     if (singleBtn) {
-        singleBtn.addEventListener("click", () => {
+        singleBtn.addEventListener("click", function () {
             alert("AI Mode Coming Soon!");
         });
     }
 
     if (multiBtn) {
-        multiBtn.addEventListener("click", () => {
+        multiBtn.addEventListener("click", function () {
             window.location.href = "friends.html";
         });
     }
 
 
-    // =====================================================
+    // =========================================
     // FRIENDS PAGE (friends.html)
-    // =====================================================
+    // =========================================
 
     const createBtn = document.getElementById("create");
     const joinBtn = document.getElementById("join");
 
     // CREATE ROOM
     if (createBtn) {
-        createBtn.addEventListener("click", async () => {
+
+        createBtn.addEventListener("click", async function () {
+
             try {
+
                 const response = await fetch("/create-room", {
                     method: "POST"
                 });
 
+                if (!response.ok) {
+                    throw new Error("Server error");
+                }
+
                 const data = await response.json();
+
+                console.log("Room created:", data.roomCode);
 
                 localStorage.setItem("roomCode", data.roomCode);
                 localStorage.setItem("isHost", "true");
 
+                alert("Room Code: " + data.roomCode);
+
                 window.location.href = "game1.html";
 
             } catch (error) {
-                console.error("Error creating room:", error);
+                console.error("Create room failed:", error);
+                alert("Could not create room. Is the server running?");
             }
+
         });
+
     }
+
 
     // JOIN ROOM
     if (joinBtn) {
-        joinBtn.addEventListener("click", async () => {
+
+        joinBtn.addEventListener("click", async function () {
 
             const code = prompt("Enter Room Code:");
+
             if (!code) return;
 
             try {
+
                 const response = await fetch("/join-room", {
                     method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ roomCode: code.toUpperCase() })
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        roomCode: code.toUpperCase()
+                    })
                 });
 
                 const data = await response.json();
@@ -75,15 +97,18 @@ document.addEventListener("DOMContentLoaded", () => {
                 window.location.href = "game1.html";
 
             } catch (error) {
-                console.error("Error joining room:", error);
+                console.error("Join room failed:", error);
+                alert("Could not join room.");
             }
+
         });
+
     }
 
 
-    // =====================================================
+    // =========================================
     // GAME PAGE (game1.html)
-    // =====================================================
+    // =========================================
 
     const roomDisplay = document.getElementById("roomDisplay");
     const playerCountDisplay = document.getElementById("playerCountDisplay");
@@ -92,7 +117,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const roomCode = localStorage.getItem("roomCode");
 
-        // Prevent direct access to game page
         if (!roomCode) {
             window.location.href = "friends.html";
             return;
@@ -100,32 +124,63 @@ document.addEventListener("DOMContentLoaded", () => {
 
         roomDisplay.textContent = "Room Code: " + roomCode;
 
-        // Function to update player count
-        function updatePlayerCount() {
-            fetch("/room-info", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ roomCode })
-            })
-            .then(res => {
-                if (!res.ok) {
+        async function updatePlayerCount() {
+
+            try {
+
+                const response = await fetch("/room-info", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ roomCode })
+                });
+
+                if (!response.ok) {
                     throw new Error("Room not found");
                 }
-                return res.json();
-            })
-            .then(data => {
+
+                const data = await response.json();
+
                 playerCountDisplay.textContent = "Players: " + data.players + "/4";
-            })
-            .catch(error => {
-                console.error("Error fetching player count:", error);
-            });
+
+            } catch (error) {
+
+                console.error("Player count error:", error);
+
+            }
+
         }
 
-        // Initial call
         updatePlayerCount();
 
-        // Auto update every 2 seconds
         setInterval(updatePlayerCount, 2000);
+
+    }
+
+});
+
+async function loadQuestion() {
+
+    const response = await fetch("/get-question");
+
+    const data = await response.json();
+
+    document.getElementById("question").textContent = data.question;
+
+    window.currentAnswer = data.answer;
+
+}
+loadQuestion();
+
+document.getElementById("submitAnswer").addEventListener("click", () => {
+
+    const userAnswer = document.getElementById("answerInput").value.toUpperCase();
+
+    if (userAnswer === window.currentAnswer) {
+        alert("Correct! +5 points");
+    } else {
+        alert("Wrong answer!");
     }
 
 });
