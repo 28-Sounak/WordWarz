@@ -6,15 +6,44 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+    <!-- Top-right info boxes -->
+    <div id="roomDisplay"></div>
+    <div id="playerCountDisplay">Players: 0/4</div>
+
     <div class="container">
         <h1>WordWarz</h1>
-        <!-- Game content goes here -->
+
+        <!-- Round info and timer -->
+        <div id="roundDisplay"></div>
+        <div id="timer"></div>
+
+        <!-- Question -->
+        <h2 id="question">Waiting for game to start...</h2>
+
+        <!-- Feedback message (correct / wrong / round over) -->
+        <p id="feedback"></p>
+
+        <!-- Answer input -->
+        <input type="text" id="answerInput" placeholder="Enter your answer" autocomplete="off">
+        <button id="submitAnswer">Submit</button>
+
+        <!-- Host-only start button (hidden by default) -->
+        <button id="startGame" style="display:none;">Start Game</button>
+        <p id="waitingMessage" style="display:none;">Waiting for players... Press Start when ready.</p>
+
+        <!-- Scoreboard -->
+        <h2>Scoreboard</h2>
+        <table id="scoreboard">
+            <tr>
+                <th>Player</th>
+                <th>Score</th>
+            </tr>
+        </table>
     </div>
 
-    <!-- Room code and player count -->
-    <div id="roomDisplay"></div>
-    <div id="playerCountDisplay"></div>
-
+    <!-- socket.io MUST come before script.js -->
+    <script src="/socket.io/socket.io.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

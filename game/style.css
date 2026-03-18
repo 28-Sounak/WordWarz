@@ -6,7 +6,7 @@ body {
     background-color: #f0f0f0;
     font-family: Arial, sans-serif;
     margin: 0;
-    height: 100vh;
+    min-height: 100vh;
 
     display: flex;
     justify-content: center;
@@ -20,17 +20,20 @@ h1 {
 
 .container {
     text-align: center;
+    padding: 20px;
 }
 
 
 /* =========================
-   INDEX BUTTONS
+   BUTTONS
 ========================= */
 
 #single,
 #multi,
 #create,
-#join {
+#join,
+#submitAnswer,
+#startGame {
     color: white;
     padding: 10px 20px;
     border: none;
@@ -38,51 +41,28 @@ h1 {
     margin: 8px;
     font-size: 14px;
     transition: 0.2s ease;
-}
-
-
-/* Single Player */
-#single {
-    background-color: green;
-}
-
-#single:hover {
-    background-color: darkgreen;
     cursor: pointer;
 }
 
+#single,
+#single:hover { background-color: green; }
+#single:hover { background-color: darkgreen; }
 
-/* Multiplayer */
-#multi {
-    background-color: blue;
-}
+#multi { background-color: blue; }
+#multi:hover { background-color: darkblue; }
 
-#multi:hover {
-    background-color: darkblue;
-    cursor: pointer;
-}
+#join { background-color: orange; }
+#join:hover { background-color: darkorange; }
 
+#create { background-color: purple; }
+#create:hover { background-color: #5e2a84; }
 
-/* Join */
-#join {
-    background-color: orange;
-}
+#submitAnswer { background-color: #007bff; }
+#submitAnswer:hover { background-color: #0056b3; }
+#submitAnswer:disabled { background-color: #aaa; cursor: not-allowed; }
 
-#join:hover {
-    background-color: darkorange;
-    cursor: pointer;
-}
-
-
-/* Create */
-#create {
-    background-color: purple;
-}
-
-#create:hover {
-    background-color: #5e2a84;   /* fixed invalid darkpurple */
-    cursor: pointer;
-}
+#startGame { background-color: #28a745; font-size: 16px; padding: 12px 28px; }
+#startGame:hover { background-color: #1e7e34; }
 
 
 /* =========================
@@ -90,7 +70,7 @@ h1 {
 ========================= */
 
 #roomDisplay {
-    position: absolute;
+    position: fixed;
     top: 20px;
     right: 20px;
 
@@ -106,18 +86,8 @@ h1 {
     gap: 8px;
 }
 
-#roomDisplay button {
-    padding: 4px 8px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-}
-
-
-/* Player Count Display */
-
 #playerCountDisplay {
-    position: absolute;
+    position: fixed;
     top: 70px;
     right: 20px;
 
@@ -127,4 +97,105 @@ h1 {
     padding: 8px 12px;
     border-radius: 10px;
     font-size: 14px;
+}
+
+
+/* =========================
+   ROUND & TIMER
+========================= */
+
+#roundDisplay {
+    font-size: 16px;
+    font-weight: bold;
+    color: #555;
+    margin-bottom: 4px;
+}
+
+#timer {
+    font-size: 22px;
+    font-weight: bold;
+    color: #c0392b;
+    margin-bottom: 12px;
+}
+
+
+/* =========================
+   QUESTION
+========================= */
+
+#question {
+    font-size: 22px;
+    margin: 16px 0;
+    color: #222;
+}
+
+
+/* =========================
+   FEEDBACK
+========================= */
+
+#feedback {
+    font-size: 16px;
+    font-weight: bold;
+    min-height: 24px;
+    margin: 8px 0;
+}
+
+
+/* =========================
+   ANSWER INPUT
+========================= */
+
+#answerInput {
+    padding: 10px 14px;
+    font-size: 16px;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    margin-right: 6px;
+    width: 220px;
+    transition: border-color 0.2s;
+}
+
+#answerInput:focus {
+    outline: none;
+    border-color: #007bff;
+}
+
+#answerInput:disabled {
+    background: #eee;
+    cursor: not-allowed;
+}
+
+
+/* =========================
+   WAITING MESSAGE
+========================= */
+
+#waitingMessage {
+    color: #555;
+    font-style: italic;
+    margin-top: 8px;
+}
+
+
+/* =========================
+   SCOREBOARD
+========================= */
+
+#scoreboard {
+    margin: 16px auto;
+    border-collapse: collapse;
+    min-width: 240px;
+}
+
+#scoreboard th,
+#scoreboard td {
+    padding: 8px 20px;
+    border: 1px solid #ccc;
+    text-align: center;
+}
+
+#scoreboard th {
+    background: #333;
+    color: white;
 }
